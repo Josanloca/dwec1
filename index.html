@@ -4,29 +4,108 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>DEWC1</title>
+    <style>
+        .incorrecto {
+            color: red;
+            border: 1px solid red;
+        }
 
+        .correcto {
+            color: green;
+            border: default;
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function (event) {
+			document.querySelector("#No").addEventListener('copy', (evt) => {
+				evt.preventDefault();
+			});
+			document.querySelector("#No").addEventListener("paste", function (evt) {
+				evt.preventDefault();
+			});
+
+            function Verif(clas,id){
+
+                const letramay = new RegExp("(?=.*?[A-Z])");
+                const letramin = new RegExp("(?=.*?[a-z])");
+                const digito = new RegExp("(?=.*?[0-9])");
+                const especial = new RegExp("(?=.*?[=#?!@$%^&*-])");
+                const longitud = new RegExp(".{8,}");
+                echo 
+                const p = document.querySelector('#Email').value;
+                let expresiones = [letramay, letramin, digito, especial, longitud];
+                console.log(expresiones);
+                let valido = true;
+                let rep = 0;
+                
+                expresiones.forEach((v, k) => {
+                    console.log(v.test(p));
+                    if (!v.test(p)) {
+                        valido = false;
+                        rep++;
+                    }
+
+                    if(rep==4){
+                        document.getElementById(clas).classList.add("correcto");
+                        //document.querySelector("'."+valida+"'").classList.add("correcto");
+
+                    }else{
+                        document.getElementById(clas).classList.add("incorrecto");
+                    }
+
+                })
+                if (!valido) {
+                    document.querySelector('#EmailC').classList.add("incorrecto");
+                    document.querySelector('#EmailC').classList.remove("correcto");
+                }
+                else {
+                    document.querySelector('#EmailC').classList.remove("incorrecto");
+                    document.querySelector('#EmailC').classList.add("correcto");
+                }
+                
+            }
+
+            document.querySelector('button').addEventListener("click", () => {
+                    Verif("EmailC","Email");
+                    Verif("ContrasenaC","Contrasena");
+                    Verif("RepiteC","Repite");
+            });
+    
+
+
+            
+		});
+    </script>
 </head>
 
 <body>
     
-    <form action="ejerc1.html">
-        <fieldset>
-        <label for="nombre">Usuario: </label><br>
-        <input type="text" id="nombre" pattern="[(a-zA-ZÀ-ÿ)([ª])[/s]]+"  maxlength="15" placeholder="Pepe" title="aqui va tu nombre" required><br>
-        <label for="apellido">Apellidos: </label><br>
-        <input type="text" id="apellido" pattern="[(a-zA-ZÀ-ÿ)([ª])[/s]]+" maxlength="15" placeholder="martinez" title="aqui va tu apellido" required><br>
-        <label for="dni">DNI: </label><br>
-        <input type="text" id="dni" pattern="[0-9]{8}[a-zA-Z]{1}" maxlength="9" placeholder="99999999A" title="tu dni como ponia antes" required><br>
-        <label for="contrasena">Contrasena: </label><br>
-        <input type="password" id="contrasena" minlength="4" maxlength="8" placeholder="contrasena" title="minimo 4 maximo 8" required><br>
-        <label for="contrasenarepetida">Repite la contrasena: </label><br>
-        <input type="password" id="contrasenarepetida" minlength="4" maxlength="8" placeholder="contrasena" title="minimo 4 maximo 8" required><br>
-        </fieldset>
-        <input type="submit" >
-        <button onclick="funcion()">x</button>
+    <form action="index.html" id="Form">
+        <label for="Email" class="EmailC" id="EmailC">Email: </label><br>
+        <input type="text" id="Email"><br>
+
+        <li id="No">
+            <label for="Contrasena" class="ContrasenaC" id="ContrasenaC">Contrasena: </label><br>
+            <input type="password" id="Contrasena"><br>
+            
+            <label for="Repite contrasena" class="RepiteC" id="RepiteC">Repite contrasena: </label><br>
+            <input type="password" id="Repite"><br>
+        </li>
+        <button type="button">Validar</button>
+
+        <input type="submit" disabled>
 
 
     </form>
+    <ul>
+        <li>Mayúscula</li>
+        <li>Minúscula</li>
+        <li>Dígito</li>
+        <li>Especial #?!@$%^&*-</li>
+        <li>8 caracteres o más</li>
+    </ul>
+    <label for="ver">Prueba de que en esta zona si se puede copiar</label><br>
+	<textarea id="ver" cols="30" rows="10"></textarea><br>
 </body>
 </html>
