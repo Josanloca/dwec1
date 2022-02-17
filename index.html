@@ -32,30 +32,31 @@
                 const digito = new RegExp("(?=.*?[0-9])");
                 const especial = new RegExp("(?=.*?[=#?!@$%^&*-])");
                 const longitud = new RegExp(".{8,}");
-                echo 
-                const p = document.querySelector('#Email').value;
+                const p = document.querySelector('#'+id).value;
                 let expresiones = [letramay, letramin, digito, especial, longitud];
-                console.log(expresiones);
+                //console.log(expresiones);
                 let valido = true;
                 let rep = 0;
                 
                 expresiones.forEach((v, k) => {
-                    console.log(v.test(p));
-                    if (!v.test(p)) {
+                    //console.log(v.test(p));
+                    if (v.test(p)) {
                         valido = false;
                         rep++;
                     }
 
                     if(rep==4){
+                        
+                        document.getElementById(clas).classList.remove("incorrecto");
                         document.getElementById(clas).classList.add("correcto");
-                        //document.querySelector("'."+valida+"'").classList.add("correcto");
 
                     }else{
+
                         document.getElementById(clas).classList.add("incorrecto");
+                        document.getElementById(clas).classList.remove("correcto");
                     }
 
                 })
-
                 
             }
 
@@ -63,6 +64,7 @@
                     Verif("EmailC","Email");
                     Verif("ContrasenaC","Contrasena");
                     Verif("RepiteC","Repite");
+
             });
     
 
