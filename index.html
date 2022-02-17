@@ -16,7 +16,20 @@
             border: default;
         }
     </style>
+    
     <script>
+        function notificar(msg,msg2) {
+            Notification.requestPermission().then(function (permission) {
+                if (permission === "granted") {
+                    let notification = new Notification(document.title, {
+                        body: ` ${msg} \n ${String.fromCodePoint(msg2)}`,
+                        icon: "favicon.ico"
+                    });
+                } else {
+                    alert(` ${msg} \n ${String.fromCodePoint(msg2)}`)
+                }
+            });
+        }
         document.addEventListener("DOMContentLoaded", function (event) {
 			document.querySelector("#No").addEventListener('copy', (evt) => {
 				evt.preventDefault();
@@ -26,50 +39,62 @@
 			});
 
             function Verif(clas,id){
-
                 const letramay = new RegExp("(?=.*?[A-Z])");
                 const letramin = new RegExp("(?=.*?[a-z])");
-                const digito = new RegExp("(?=.*?[0-9])");
+                const digito   = new RegExp("(?=.*?[0-9])");
                 const especial = new RegExp("(?=.*?[=#?!@$%^&*-])");
                 const longitud = new RegExp(".{8,}");
                 const p = document.querySelector('#'+id).value;
                 let expresiones = [letramay, letramin, digito, especial, longitud];
                 //console.log(expresiones);
-                let valido = true;
+                let valido = false;
                 let rep = 0;
                 
                 expresiones.forEach((v, k) => {
                     //console.log(v.test(p));
                     if (v.test(p)) {
-                        valido = false;
                         rep++;
                     }
 
-                    if(rep==4){
+                    if(rep==5){
 
-                        document.getElementById(clas).classList.remove("incorrecto");
-                        document.getElementById(clas).classList.add("correcto");
-
+                        if(id.localeCompare("Email")!=0 && document.querySelector('#Contrasena').value.localeCompare(document.querySelector('#Repite').value)==0){
+                            document.getElementById(clas).classList.remove("incorrecto");
+                            document.getElementById(clas).classList.add("correcto");
+                            valido = true;
+                        }else if(id.localeCompare("Email")==0){
+                            document.getElementById(clas).classList.remove("incorrecto");
+                            document.getElementById(clas).classList.add("correcto");
+                            valido = true;
+                        }else{
+                            document.getElementById(clas).classList.add("incorrecto");
+                            document.getElementById(clas).classList.remove("correcto");
+                            notificar("Contrasena no iguales",128557);
+                        }
                     }else{
-
                         document.getElementById(clas).classList.add("incorrecto");
                         document.getElementById(clas).classList.remove("correcto");
                     }
-
                 })
-                
+
+                return valido;
             }
 
             document.querySelector('button').addEventListener("click", () => {
-                    Verif("EmailC","Email");
-                    Verif("ContrasenaC","Contrasena");
-                    Verif("RepiteC","Repite");
+
+                    var A = Verif("EmailC","Email");
+                    var B = Verif("ContrasenaC","Contrasena");
+                    var C = Verif("RepiteC","Repite");
+
+                    if(A == true && B == true && C ==true){
+                        notificar("Todos los datos bien introducidos",128525);
+                        document.getElementById("Boton").disabled = false; 
+                    }else{
+                        document.getElementById("Boton").disabled = true; 
+                    }
 
             });
-    
 
-
-            
 		});
     </script>
 </head>
@@ -89,7 +114,7 @@
         </li>
         <button type="button">Validar</button>
 
-        <input type="submit" disabled>
+        <input type="submit" id="Boton" disabled>
 
 
     </form>
