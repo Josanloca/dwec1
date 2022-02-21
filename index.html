@@ -16,7 +16,20 @@
             border: default;
         }
     </style>
+    
     <script>
+        function notificar(msg,msg2) {
+            Notification.requestPermission().then(function (permission) {
+                if (permission === "granted") {
+                    let notification = new Notification(document.title, {
+                        body: ` ${msg} \n ${String.fromCodePoint(msg2)}`,
+                        icon: "favicon.ico"
+                    });
+                } else {
+                    alert(` ${msg} \n ${String.fromCodePoint(msg2)}`)
+                }
+            });
+        }
         document.addEventListener("DOMContentLoaded", function (event) {
 			document.querySelector("#No").addEventListener('copy', (evt) => {
 				evt.preventDefault();
@@ -26,31 +39,53 @@
 			});
 
             function Verif(clas,id){
-
                 const letramay = new RegExp("(?=.*?[A-Z])");
                 const letramin = new RegExp("(?=.*?[a-z])");
-                const digito = new RegExp("(?=.*?[0-9])");
+                const digito   = new RegExp("(?=.*?[0-9])");
                 const especial = new RegExp("(?=.*?[=#?!@$%^&*-])");
                 const longitud = new RegExp(".{8,}");
                 const p = document.querySelector('#'+id).value;
                 let expresiones = [letramay, letramin, digito, especial, longitud];
+<<<<<<< HEAD
                 let valido = true;
+=======
+                //console.log(expresiones);
+                let valido = false;
+>>>>>>> c3098b0907747efacaee1ff42893314023189958
                 let rep = 0;
                 
                 expresiones.forEach((v, k) => {
                     if (v.test(p)) {
-                        valido = false;
                         rep++;
                     }
 
+<<<<<<< HEAD
                     if(rep==4){
                         document.getElementById(clas).classList.remove("incorrecto");
                         document.getElementById(clas).classList.add("correcto");
+=======
+                    if(rep==5){
+
+                        if(id.localeCompare("Email")!=0 && document.querySelector('#Contrasena').value.localeCompare(document.querySelector('#Repite').value)==0){
+                            document.getElementById(clas).classList.remove("incorrecto");
+                            document.getElementById(clas).classList.add("correcto");
+                            valido = true;
+                        }else if(id.localeCompare("Email")==0){
+                            document.getElementById(clas).classList.remove("incorrecto");
+                            document.getElementById(clas).classList.add("correcto");
+                            valido = true;
+                        }else{
+                            document.getElementById(clas).classList.add("incorrecto");
+                            document.getElementById(clas).classList.remove("correcto");
+                            notificar("Contrasena no iguales",128557);
+                        }
+>>>>>>> c3098b0907747efacaee1ff42893314023189958
                     }else{
                         document.getElementById(clas).classList.add("incorrecto");
                         document.getElementById(clas).classList.remove("correcto");
                     }
                 })
+<<<<<<< HEAD
             }
 
             document.querySelector('button').addEventListener("click", () => {
@@ -58,6 +93,27 @@
                     Verif("ContrasenaC","Contrasena");
                     Verif("RepiteC","Repite");
             });            
+=======
+
+                return valido;
+            }
+
+            document.querySelector('button').addEventListener("click", () => {
+
+                    var A = Verif("EmailC","Email");
+                    var B = Verif("ContrasenaC","Contrasena");
+                    var C = Verif("RepiteC","Repite");
+
+                    if(A == true && B == true && C ==true){
+                        notificar("Todos los datos bien introducidos",128525);
+                        document.getElementById("Boton").disabled = false; 
+                    }else{
+                        document.getElementById("Boton").disabled = true; 
+                    }
+
+            });
+
+>>>>>>> c3098b0907747efacaee1ff42893314023189958
 		});
     </script>
 </head>
@@ -77,7 +133,7 @@
         </li>
         <button type="button">Validar</button>
 
-        <input type="submit" disabled>
+        <input type="submit" id="Boton" disabled>
 
 
     </form>
