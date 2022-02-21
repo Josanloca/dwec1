@@ -34,42 +34,30 @@
                 const longitud = new RegExp(".{8,}");
                 const p = document.querySelector('#'+id).value;
                 let expresiones = [letramay, letramin, digito, especial, longitud];
-                //console.log(expresiones);
                 let valido = true;
                 let rep = 0;
                 
                 expresiones.forEach((v, k) => {
-                    //console.log(v.test(p));
                     if (v.test(p)) {
                         valido = false;
                         rep++;
                     }
 
                     if(rep==4){
-
                         document.getElementById(clas).classList.remove("incorrecto");
                         document.getElementById(clas).classList.add("correcto");
-
                     }else{
-
                         document.getElementById(clas).classList.add("incorrecto");
                         document.getElementById(clas).classList.remove("correcto");
                     }
-
                 })
-                
             }
 
             document.querySelector('button').addEventListener("click", () => {
                     Verif("EmailC","Email");
                     Verif("ContrasenaC","Contrasena");
                     Verif("RepiteC","Repite");
-
-            });
-    
-
-
-            
+            });            
 		});
     </script>
 </head>
